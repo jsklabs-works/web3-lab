@@ -111,10 +111,11 @@ svg g[class^="c-"] > rect { fill: var(--f); stroke: var(--s); stroke-width: 0.75
 svg g[class^="c-"] > .th, svg g[class^="c-"] > .t { fill: var(--tt); }
 svg g[class^="c-"] > .ts { fill: var(--st); }
 
-/* "Words in this lesson" box: definitions before the lesson uses them. */
-.words { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; margin: 20px 0; }
-.words h2 { margin: 0 0 4px; font-size: 18px; }
-.words dl { display: grid; grid-template-columns: minmax(0, 11em) minmax(0, 1fr); gap: 8px 16px; margin: 10px 0 0; }
-.words dt { font-weight: 600; }
-.words dd { margin: 0; }
-@media (max-width: 560px) { .words dl { grid-template-columns: minmax(0, 1fr); gap: 2px; } .words dd { margin-bottom: 8px; } }
+/* Definition cards: placed inside the section that introduces each word. */
+.def { background: var(--card); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 0; padding: 10px 14px; margin: 12px 0 16px; }
+.def-label { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin-bottom: 4px; }
+.def dl, .words dl { display: grid; grid-template-columns: minmax(0, 10em) minmax(0, 1fr); gap: 6px 16px; margin: 0; }
+.def dt, .words dt { font-weight: 600; }
+.def dd, .words dd { margin: 0; }
+@media (max-width: 560px) { .def dl, .words dl { grid-template-columns: minmax(0, 1fr); gap: 2px; } .def dd, .words dd { margin-bottom: 8px; } }
+.words { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; margin: 12px 0 20px; }

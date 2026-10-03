@@ -12,24 +12,13 @@
   <h1>Lesson 6: The life of a transaction</h1>
   <p class="lead">A payment: sign it, wait, get put in a block, and anyone in the world can see it.</p>
 
-  <section class="words">
-    <h2>Words in this lesson</h2>
-    <p class="muted">Read these first. Each word is explained here before the lesson uses it. All words: <a href="glossary.html">glossary</a>.</p>
-    <dl>
-      <dt id="eth-ether">ETH (ether)</dt><dd>Ethereum&#x27;s coin. You send it, and you pay fees with it.</dd>
-      <dt id="test-network-testnet">Test network (testnet)</dt><dd>A practice copy of a blockchain whose coins are free and worthless.</dd>
-      <dt id="sepolia">Sepolia</dt><dd>Ethereum&#x27;s main test network.</dd>
-      <dt id="fee-gas">Fee (gas)</dt><dd>A small charge for a transaction, paid to whoever adds it to a block.</dd>
-      <dt id="gwei">Gwei</dt><dd>A tiny unit of ETH used for fees: 1 gwei = 0.000000001 ETH.</dd>
-      <dt id="mempool">Mempool</dt><dd>The waiting room where signed transactions sit until they&#x27;re put in a block.</dd>
-      <dt id="block-explorer">Block explorer</dt><dd>A website for looking up anything on a blockchain. Etherscan is the one for Ethereum.</dd>
-      <dt id="transaction-hash">Transaction hash</dt><dd>A transaction&#x27;s fingerprint. You use it to look the transaction up.</dd>
-      <dt id="nonce-account">Nonce (account)</dt><dd>Counts how many transactions an account has sent: 0, 1, 2… Different from the mining nonce.</dd>
-      <dt id="confirmation">Confirmation</dt><dd>Each new block added after yours. More confirmations mean it&#x27;s harder to undo.</dd>
-    </dl>
-  </section>
-
   <h2>One real example</h2>
+  <div class="def"><div class="def-label">Key words</div><dl>
+    <dt>ETH (ether)</dt><dd>Ethereum&#x27;s coin. You send it, and you pay fees with it.</dd>
+    <dt>Test network (testnet)</dt><dd>A practice copy of a blockchain whose coins are free and worthless.</dd>
+    <dt>Sepolia</dt><dd>Ethereum&#x27;s main test network.</dd>
+    <dt>Block explorer</dt><dd>A website for looking up anything on a blockchain. Etherscan is the one for Ethereum.</dd>
+  </dl></div>
   <p>On the Sepolia test network, someone (call them <b>A</b>) sent <b>0.0458 test ETH</b> to someone else (<b>B</b>). That's all that happened. You can see it yourself, no login needed:</p>
   <p>👉 <a href="https://sepolia.etherscan.io/tx/0x9c00ea2ff7cf260cfc69a3de3c877b19e2d4a79171401d1773d0c6ab88a8c1d3">View the transaction on Sepolia Etherscan</a></p>
 
@@ -66,10 +55,19 @@
   <p><b>Why the nonce matters:</b> it stops anyone from replaying an old signed payment to make you pay twice. Each nonce can be used only once.</p>
 
   <h2>On Etherscan</h2>
+  <div class="def"><div class="def-label">Key words</div><dl>
+    <dt>Transaction hash</dt><dd>A transaction&#x27;s fingerprint. You use it to look the transaction up.</dd>
+    <dt>Confirmation</dt><dd>Each new block added after yours. More confirmations mean it&#x27;s harder to undo.</dd>
+  </dl></div>
   <p>On the transaction page, find: <b>Transaction Hash</b> (its fingerprint), <b>Status</b>, <b>Block</b> (click the blue number to see the block), <b>From / To</b>, <b>Value</b>, <b>Transaction Fee</b>, and the <b>Nonce</b> under "Click to show more". On the block page, <b>Parent Hash</b> (under "More Details") is the link to the previous block from Lesson 3.</p>
 
   <div class="box">
     <h3>Try it: send your own payment</h3>
+    <div class="def"><div class="def-label">Key words</div><dl>
+      <dt>Mempool</dt><dd>The waiting room where signed transactions sit until they&#x27;re put in a block.</dd>
+      <dt>Fee (gas)</dt><dd>A small charge for a transaction, paid to whoever adds it to a block.</dd>
+      <dt>Gwei</dt><dd>A tiny unit of ETH used for fees: 1 gwei = 0.000000001 ETH.</dd>
+    </dl></div>
     <p>Open <a href="../practice-ethereum.html">Practice Ethereum</a>, a pretend Ethereum with the same rules and no wallet needed:</p>
     <ol>
       <li><b>Send:</b> Account 1 → Account 2, 1 ETH, then <b>Sign and send</b>. It waits as <i>Pending</i>, then a validator puts it into a block after about 5 seconds.</li>

@@ -11,23 +11,11 @@
   <nav class="top"><a href="../">← Web3 Lab</a><span>Lesson 5 of 9</span></nav>
   <h1>Lesson 5: Mining, the cost of writing a page</h1>
   <p class="lead">Mining adds one new block at a time. It makes every block costly to create but instant to check, so rewriting history isn't worth trying.</p>
-
-  <section class="words">
-    <h2>Words in this lesson</h2>
-    <p class="muted">Read these first. Each word is explained here before the lesson uses it. All words: <a href="glossary.html">glossary</a>.</p>
-    <dl>
-      <dt id="mining">Mining</dt><dd>Creating the next block by solving a guessing puzzle, then adding it to the end of the chain.</dd>
-      <dt id="miner">Miner</dt><dd>A computer, or the person running it, that does mining.</dd>
-      <dt id="nonce-mining">Nonce (mining)</dt><dd>A number the miner keeps changing until the block&#x27;s hash starts with enough zeros.</dd>
-      <dt id="difficulty">Difficulty</dt><dd>How hard the puzzle is, for example how many zeros the hash must start with.</dd>
-      <dt id="proof-of-work">Proof of Work</dt><dd>The rule that you may add a block only after showing you did the puzzle work. Bitcoin uses it.</dd>
-      <dt id="reward">Reward</dt><dd>What the block creator earns: newly created coins plus the fees from the block&#x27;s transactions.</dd>
-      <dt id="51-attack">51% attack</dt><dd>Trying to rewrite history by controlling more than half of the network&#x27;s power.</dd>
-      <dt id="proof-of-stake">Proof of Stake</dt><dd>Another way to choose who adds blocks: people lock up coins as a deposit and get picked at random. Ethereum uses it.</dd>
-      <dt id="validator">Validator</dt><dd>Someone who has locked up coins and takes turns adding blocks in Proof of Stake.</dd>
-      <dt id="stake">Stake</dt><dd>Coins locked up as a deposit. Cheaters lose part of it.</dd>
-    </dl>
-  </section>
+  <div class="def"><div class="def-label">Key words</div><dl>
+    <dt>Mining</dt><dd>Creating the next block by solving a guessing puzzle, then adding it to the end of the chain.</dd>
+    <dt>Miner</dt><dd>A computer, or the person running it, that does mining.</dd>
+    <dt>Proof of Work</dt><dd>The rule that you may add a block only after showing you did the puzzle work. Bitcoin uses it.</dd>
+  </dl></div>
 
   <p>Two questions are still open:</p>
   <ol>
@@ -37,6 +25,10 @@
   <p>Bitcoin's answer, <b>Proof of Work</b>, solves both: <b>make adding a block require a lot of work, through a puzzle that's slow to solve but instant to check.</b></p>
 
   <h2>The puzzle</h2>
+  <div class="def"><div class="def-label">Key words</div><dl>
+    <dt>Nonce (mining)</dt><dd>A number the miner keeps changing until the block&#x27;s hash starts with enough zeros.</dd>
+    <dt>Difficulty</dt><dd>How hard the puzzle is, for example how many zeros the hash must start with.</dd>
+  </dl></div>
   <p>A block gets one extra field, the <b>nonce</b> ("number used once"), which is just a counter. The puzzle: <b>find a nonce that makes the block's hash start with <code>0000</code>.</b> Hashes are unpredictable, so the only way is to try 0, 1, 2, 3… until you get lucky.</p>
 
   <figure class="diagram">
@@ -98,6 +90,9 @@
   </figure>
 
   <h2>A hacker's attack: re-mining old blocks</h2>
+  <div class="def"><div class="def-label">Key words</div><dl>
+    <dt>51% attack</dt><dd>Trying to rewrite history by controlling more than half of the network&#x27;s power.</dd>
+  </dl></div>
   <p>To change block 2, the hacker must rebuild block 2 <b>and every block after it</b>, and each one has to be mined again. Meanwhile the honest miners keep adding blocks to the real chain:</p>
   <figure class="diagram">
     <svg viewBox="0 0 680 246" role="img"><title>Attacker re-mining versus the honest chain</title><desc>The honest chain has blocks 1 to 5 and keeps growing. The hacker branches after block 1 and re-mines blocks 2, 3 and 4, but stays behind.</desc>
@@ -131,9 +126,17 @@
   </table></div>
 
   <h2>Who earns what</h2>
+  <div class="def"><div class="def-label">Key words</div><dl>
+    <dt>Reward</dt><dd>What the block creator earns: newly created coins plus the fees from the block&#x27;s transactions.</dd>
+  </dl></div>
   <p>Whoever solves the puzzle first adds the block and earns a <b>reward</b>: new coins plus the transaction fees. This is how new bitcoin come into existence, and it's why honest work pays better than cheating.</p>
 
   <h3>Quick note: Proof of Stake</h3>
+  <div class="def"><div class="def-label">Key words</div><dl>
+    <dt>Proof of Stake</dt><dd>Another way to choose who adds blocks: people lock up coins as a deposit and get picked at random. Ethereum uses it.</dd>
+    <dt>Validator</dt><dd>Someone who has locked up coins and takes turns adding blocks in Proof of Stake.</dd>
+    <dt>Stake</dt><dd>Coins locked up as a deposit. Cheaters lose part of it.</dd>
+  </dl></div>
   <div class="scroll"><table>
     <thead><tr><th></th><th>Proof of Work (Bitcoin)</th><th>Proof of Stake (Ethereum, since 2022)</th></tr></thead>
     <tbody>

@@ -12,25 +12,18 @@
   <h1>Lesson 4: Wallets, keys and signatures</h1>
   <p class="lead">A wallet is a pair of keys. The private key signs, the public key lets anyone check the signature, and the address is what you share.</p>
 
-  <section class="words">
-    <h2>Words in this lesson</h2>
-    <p class="muted">Read these first. Each word is explained here before the lesson uses it. All words: <a href="glossary.html">glossary</a>.</p>
-    <dl>
-      <dt id="key">Key</dt><dd>A very large number used to sign or check messages.</dd>
-      <dt id="private-key">Private key</dt><dd>Your secret key. It creates signatures. Never share it.</dd>
-      <dt id="public-key">Public key</dt><dd>The key made from your private key. It lets anyone check your signatures. Safe to share.</dd>
-      <dt id="address">Address</dt><dd>A short version (a hash) of your public key. Like an account number that others use to pay you.</dd>
-      <dt id="signature">Signature</dt><dd>A code made from a message plus your private key. It proves the message came from you and wasn&#x27;t changed.</dd>
-      <dt id="verify">Verify</dt><dd>Check a signature using the public key.</dd>
-      <dt id="wallet">Wallet</dt><dd>An app that keeps your keys and signs for you. Your coins are recorded on the blockchain, not inside the app.</dd>
-      <dt id="seed-phrase">Seed phrase</dt><dd>12 or 24 words that back up your private keys. Whoever has them controls your money.</dd>
-    </dl>
-  </section>
-
   <h2>The problem</h2>
   <p>On a shared ledger anyone can announce a transaction. What stops Bob from shouting "<b>A pays B 500</b>" and pretending it came from A? We need a way for A to prove "<b>I really said this</b>" that <b>anyone can check</b>, but <b>nobody can fake</b>.</p>
 
   <h2>The solution: a pair of keys</h2>
+  <div class="def"><div class="def-label">Key words</div><dl>
+    <dt>Key</dt><dd>A very large number used to sign or check messages.</dd>
+    <dt>Private key</dt><dd>Your secret key. It creates signatures. Never share it.</dd>
+    <dt>Public key</dt><dd>The key made from your private key. It lets anyone check your signatures. Safe to share.</dd>
+    <dt>Address</dt><dd>A short version (a hash) of your public key. Like an account number that others use to pay you.</dd>
+    <dt>Wallet</dt><dd>An app that keeps your keys and signs for you. Your coins are recorded on the blockchain, not inside the app.</dd>
+    <dt>Seed phrase</dt><dd>12 or 24 words that back up your private keys. Whoever has them controls your money.</dd>
+  </dl></div>
   <figure class="diagram">
     <svg viewBox="0 0 680 136" role="img"><title>How a wallet is created</title><desc>A random number becomes the private key, which is turned one-way into a public key, which is hashed into a short address.</desc>
       <defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path class="arrowhead" d="M2 1L8 5L2 9" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
@@ -49,6 +42,10 @@
   <div class="callout">⚠️ <b>Whoever has your private key owns your money.</b> There's no "forgot password" and no bank to call. The 12-word <b>seed phrase</b> that wallets show you is a backup of your private key. <b>Never share it with anyone.</b> Real support will never ask for it.</div>
 
   <h2>Signing and checking a transaction</h2>
+  <div class="def"><div class="def-label">Key words</div><dl>
+    <dt>Signature</dt><dd>A code made from a message plus your private key. It proves the message came from you and wasn&#x27;t changed.</dd>
+    <dt>Verify</dt><dd>Check a signature using the public key.</dd>
+  </dl></div>
   <figure class="diagram">
     <svg viewBox="0 0 680 494" role="img"><title>Signing and verifying</title><desc>Alice's message and private key go into Sign, producing a signature. Anyone verifies the message, signature and public key; the result is valid and accepted, or invalid and rejected.</desc>
       <defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path class="arrowhead" d="M2 1L8 5L2 9" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>

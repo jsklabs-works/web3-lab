@@ -22,23 +22,10 @@
   <nav class="top"><a href="../">← Web3 Lab</a><span>Lesson 7 of 9</span></nav>
   <h1>Lesson 7: Smart contracts</h1>
   <p class="lead">A smart contract is a small program stored on the blockchain. Anyone can use it, it follows its rules exactly, and nobody can change or stop it.</p>
-
-  <section class="words">
-    <h2>Words in this lesson</h2>
-    <p class="muted">Read these first. Each word is explained here before the lesson uses it. All words: <a href="glossary.html">glossary</a>.</p>
-    <dl>
-      <dt id="program-code">Program (code)</dt><dd>Step-by-step instructions that a computer follows exactly.</dd>
-      <dt id="smart-contract">Smart contract</dt><dd>A program stored on the blockchain. Anyone can use it, and nobody can change it.</dd>
-      <dt id="solidity">Solidity</dt><dd>The programming language most Ethereum smart contracts are written in.</dd>
-      <dt id="deploy">Deploy</dt><dd>Put a contract on the blockchain. After that its code can&#x27;t be changed.</dd>
-      <dt id="contract-address">Contract address</dt><dd>Where a deployed contract lives, like a wallet address. It can hold ETH.</dd>
-      <dt id="function">Function</dt><dd>One action a contract offers, like deposit() or withdraw().</dd>
-      <dt id="call">Call</dt><dd>Use a function, for example &quot;call withdraw()&quot;.</dd>
-      <dt id="state">State</dt><dd>The information a contract remembers, like who its owner is and how much ETH it holds.</dd>
-      <dt id="owner">Owner</dt><dd>In our example, the account that deployed the contract. The contract&#x27;s rules give it special rights.</dd>
-      <dt id="revert">Revert</dt><dd>A rule failed, so the whole call is cancelled and nothing changes.</dd>
-    </dl>
-  </section>
+  <div class="def"><div class="def-label">Key words</div><dl>
+    <dt>Program (code)</dt><dd>Step-by-step instructions that a computer follows exactly.</dd>
+    <dt>Smart contract</dt><dd>A program stored on the blockchain. Anyone can use it, and nobody can change it.</dd>
+  </dl></div>
 
   <p>So far the blockchain has only stored <b>payments</b>. Ethereum can also store <b>programs</b>. Once one is on the blockchain, every node runs it the same way and the results are recorded in blocks, just like payments.</p>
 
@@ -63,6 +50,13 @@
   </figure>
 
   <h2>Our example: a piggy bank</h2>
+  <div class="def"><div class="def-label">Key words</div><dl>
+    <dt>Solidity</dt><dd>The programming language most Ethereum smart contracts are written in.</dd>
+    <dt>Deploy</dt><dd>Put a contract on the blockchain. After that its code can&#x27;t be changed.</dd>
+    <dt>Function</dt><dd>One action a contract offers, like deposit() or withdraw().</dd>
+    <dt>State</dt><dd>The information a contract remembers, like who its owner is and how much ETH it holds.</dd>
+    <dt>Owner</dt><dd>In our example, the account that deployed the contract. The contract&#x27;s rules give it special rights.</dd>
+  </dl></div>
   <p>Its rules: <b>anyone can put ETH in, but only the owner can take it out.</b> Here's the whole contract, written in <b>Solidity</b>, Ethereum's main language. Don't try to memorise the code; just match each part to the rules.</p>
 
   <pre class="code" id="code"></pre>
@@ -80,6 +74,11 @@
 
   <div class="box widget">
     <h3>Try it: use the piggy bank</h3>
+    <div class="def"><div class="def-label">Key words</div><dl>
+      <dt>Call</dt><dd>Use a function, for example &quot;call withdraw()&quot;.</dd>
+      <dt>Contract address</dt><dd>Where a deployed contract lives, like a wallet address. It can hold ETH.</dd>
+      <dt>Revert</dt><dd>A rule failed, so the whole call is cancelled and nothing changes.</dd>
+    </dl></div>
     <p class="muted" style="margin:0">A practice blockchain with two accounts. Green code lines show what ran; red means a rule stopped the call.</p>
     <div class="scroll"><table>
       <thead><tr><th>Account</th><th>Balance</th></tr></thead>

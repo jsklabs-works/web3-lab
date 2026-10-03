@@ -11,18 +11,12 @@
   <nav class="top"><a href="../">← Web3 Lab</a><span>Lesson 3 of 9</span></nav>
   <h1>Lesson 3: Blocks and the chain</h1>
   <p class="lead">Each block stores the previous block's hash. So changing old data breaks every link after it.</p>
-
-  <section class="words">
-    <h2>Words in this lesson</h2>
-    <p class="muted">Read these first. Each word is explained here before the lesson uses it. All words: <a href="glossary.html">glossary</a>.</p>
-    <dl>
-      <dt id="block">Block</dt><dd>One page of the ledger: a group of transactions plus a little extra information.</dd>
-      <dt id="chain">Chain</dt><dd>Blocks kept in order, each one pointing back to the block before it.</dd>
-      <dt id="prev-hash">Prev hash</dt><dd>The previous block&#x27;s hash, written inside each block. It is the link of the chain.</dd>
-      <dt id="genesis-block">Genesis block</dt><dd>The very first block. It has no block before it.</dd>
-      <dt id="tampering">Tampering</dt><dd>Secretly changing data that is already recorded.</dd>
-    </dl>
-  </section>
+  <div class="def"><div class="def-label">Key words</div><dl>
+    <dt>Block</dt><dd>One page of the ledger: a group of transactions plus a little extra information.</dd>
+    <dt>Chain</dt><dd>Blocks kept in order, each one pointing back to the block before it.</dd>
+    <dt>Prev hash</dt><dd>The previous block&#x27;s hash, written inside each block. It is the link of the chain.</dd>
+    <dt>Genesis block</dt><dd>The very first block. It has no block before it.</dd>
+  </dl></div>
 
   <p>The record book is split into <b>pages called blocks</b>. Each block holds four things:</p>
   <ol>
@@ -46,6 +40,9 @@
   <p class="muted">Hashes are shortened to 4 characters here to keep the picture readable. Real ones are 64.</p>
 
   <h2>What if someone changes an old block?</h2>
+  <div class="def"><div class="def-label">Key words</div><dl>
+    <dt>Tampering</dt><dd>Secretly changing data that is already recorded.</dd>
+  </dl></div>
   <p>Say a hacker changes Block 1 from "A pays B <b>50</b>" to "A pays B <b>500</b>":</p>
   <ol>
     <li>Block 1's data changed, so <b>its hash changes</b>. It's no longer <code>8a1f</code>.</li>
