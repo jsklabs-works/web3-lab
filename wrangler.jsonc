@@ -1,0 +1,8 @@
+// Cloudflare settings: publish the website in the docs/ folder as a plain static site.
+{
+  "name": "web3-lab",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./docs"
+  }
+}
