@@ -12,6 +12,21 @@
   <h1>Lesson 4: Wallets, keys and signatures</h1>
   <p class="lead">A wallet is a pair of keys. The private key signs, the public key lets anyone check the signature, and the address is what you share.</p>
 
+  <section class="words">
+    <h2>Words in this lesson</h2>
+    <p class="muted">Read these first. Each word is explained here before the lesson uses it. All words: <a href="glossary.html">glossary</a>.</p>
+    <dl>
+      <dt id="key">Key</dt><dd>A very large number used to sign or check messages.</dd>
+      <dt id="private-key">Private key</dt><dd>Your secret key. It creates signatures. Never share it.</dd>
+      <dt id="public-key">Public key</dt><dd>The key made from your private key. It lets anyone check your signatures. Safe to share.</dd>
+      <dt id="address">Address</dt><dd>A short version (a hash) of your public key. Like an account number that others use to pay you.</dd>
+      <dt id="signature">Signature</dt><dd>A code made from a message plus your private key. It proves the message came from you and wasn&#x27;t changed.</dd>
+      <dt id="verify">Verify</dt><dd>Check a signature using the public key.</dd>
+      <dt id="wallet">Wallet</dt><dd>An app that keeps your keys and signs for you. Your coins are recorded on the blockchain, not inside the app.</dd>
+      <dt id="seed-phrase">Seed phrase</dt><dd>12 or 24 words that back up your private keys. Whoever has them controls your money.</dd>
+    </dl>
+  </section>
+
   <h2>The problem</h2>
   <p>On a shared ledger anyone can announce a transaction. What stops Bob from shouting "<b>A pays B 500</b>" and pretending it came from A? We need a way for A to prove "<b>I really said this</b>" that <b>anyone can check</b>, but <b>nobody can fake</b>.</p>
 

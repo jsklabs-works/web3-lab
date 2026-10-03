@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lesson 7: Smart Contracts</title>
+<link rel="stylesheet" href="../assets/style.css">
+<style>
+  .code { background: var(--code); border-radius: 8px; padding: 10px 0; overflow-x: auto; font: 13.5px/1.6 ui-monospace, Menlo, monospace; margin: 0; }
+  .code div { padding: 0 14px; white-space: pre; border-left: 3px solid transparent; }
+  .code div.run { background: var(--ok-bg); border-left-color: var(--ok); }
+  .code div.fail { background: var(--no-bg); border-left-color: var(--no); }
+  .code .c { color: var(--muted); }
+  .log { display: grid; gap: 6px; font-size: 14px; max-height: 260px; overflow-y: auto; }
+  .log div { padding: 6px 10px; border-radius: 6px; background: var(--code); }
+  .tag { font-weight: 600; font-size: 12px; margin-right: 6px; }
+  .tag.read { color: var(--accent); } .tag.write { color: var(--ok); } .tag.revert { color: var(--no); }
+</style>
+</head>
+<body>
+<main>
+  <nav class="top"><a href="../">← Web3 Lab</a><span>Lesson 7 of 9</span></nav>
+  <h1>Lesson 7: Smart contracts</h1>
+  <p class="lead">A smart contract is a small program stored on the blockchain. Anyone can use it, it follows its rules exactly, and nobody can change or stop it.</p>
+
+  <section class="words">
+    <h2>Words in this lesson</h2>
+    <p class="muted">Read these first. Each word is explained here before the lesson uses it. All words: <a href="glossary.html">glossary</a>.</p>
+    <dl>
+      <dt id="program-code">Program (code)</dt><dd>Step-by-step instructions that a computer follows exactly.</dd>
+      <dt id="smart-contract">Smart contract</dt><dd>A program stored on the blockchain. Anyone can use it, and nobody can change it.</dd>
+      <dt id="solidity">Solidity</dt><dd>The programming language most Ethereum smart contracts are written in.</dd>
+      <dt id="deploy">Deploy</dt><dd>Put a contract on the blockchain. After that its code can&#x27;t be changed.</dd>
+      <dt id="contract-address">Contract address</dt><dd>Where a deployed contract lives, like a wallet address. It can hold ETH.</dd>
+      <dt id="function">Function</dt><dd>One action a contract offers, like deposit() or withdraw().</dd>
+      <dt id="call">Call</dt><dd>Use a function, for example &quot;call withdraw()&quot;.</dd>
+      <dt id="state">State</dt><dd>The information a contract remembers, like who its owner is and how much ETH it holds.</dd>
+      <dt id="owner">Owner</dt><dd>In our example, the account that deployed the contract. The contract&#x27;s rules give it special rights.</dd>
+      <dt id="revert">Revert</dt><dd>A rule failed, so the whole call is cancelled and nothing changes.</dd>
+    </dl>
+  </section>
+
+  <p>So far the blockchain has only stored <b>payments</b>. Ethereum can also store <b>programs</b>. Once one is on the blockchain, every node runs it the same way and the results are recorded in blocks, just like payments.</p>
+
+  <h2>Think of a vending machine</h2>
+  <p>A vending machine has no shopkeeper. The rules are built in: <i>put in enough money and choose an item → you get the item; not enough money → you get nothing.</i> Nobody can argue with it or bend the rules. A smart contract is a vending machine made of code, living on the blockchain.</p>
+
+  <figure class="diagram">
+    <svg viewBox="0 0 680 406" role="img"><title>How a smart contract call works</title><desc>You call a function, such as deposit with 1 ETH. The contract on the blockchain holds code and state. If its rules pass, the state is updated and saved in a block. If not, the call is rejected and nothing changes.</desc>
+      <defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path class="arrowhead" d="M2 1L8 5L2 9" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+      <g class="c-purple"><rect x="200" y="40" width="280" height="56" rx="8"/><text class="th" x="340" y="58" text-anchor="middle" dominant-baseline="central">You call a function</text><text class="ts" x="340" y="78" text-anchor="middle" dominant-baseline="central">e.g. deposit() with 1 ETH</text></g>
+      <line class="arr" x1="340" y1="100" x2="340" y2="126" marker-end="url(#ah)"/>
+      <g class="c-teal"><rect x="200" y="130" width="280" height="56" rx="8"/><text class="th" x="340" y="148" text-anchor="middle" dominant-baseline="central">Contract on the blockchain</text><text class="ts" x="340" y="168" text-anchor="middle" dominant-baseline="central">Code (rules) + state (data, money)</text></g>
+      <line class="arr" x1="340" y1="190" x2="340" y2="216" marker-end="url(#ah)"/>
+      <g class="c-gray"><rect x="240" y="220" width="200" height="44" rx="8"/><text class="th" x="340" y="242" text-anchor="middle" dominant-baseline="central">Do the rules pass?</text></g>
+      <line class="arr" x1="290" y1="268" x2="210" y2="306" marker-end="url(#ah)"/>
+      <line class="arr" x1="390" y1="268" x2="470" y2="306" marker-end="url(#ah)"/>
+      <text class="ts" x="232" y="282">Yes</text>
+      <text class="ts" x="436" y="282">No</text>
+      <g class="c-green"><rect x="90" y="310" width="240" height="56" rx="8"/><text class="th" x="210" y="328" text-anchor="middle" dominant-baseline="central">State updated</text><text class="ts" x="210" y="348" text-anchor="middle" dominant-baseline="central">Saved in a block</text></g>
+      <g class="c-red"><rect x="350" y="310" width="240" height="56" rx="8"/><text class="th" x="470" y="328" text-anchor="middle" dominant-baseline="central">Rejected ("revert")</text><text class="ts" x="470" y="348" text-anchor="middle" dominant-baseline="central">Nothing changes</text></g>
+    </svg>
+  </figure>
+
+  <h2>Our example: a piggy bank</h2>
+  <p>Its rules: <b>anyone can put ETH in, but only the owner can take it out.</b> Here's the whole contract, written in <b>Solidity</b>, Ethereum's main language. Don't try to memorise the code; just match each part to the rules.</p>
+
+  <pre class="code" id="code"></pre>
+
+  <div class="scroll"><table>
+    <thead><tr><th>Part of the code</th><th>In plain words</th></tr></thead>
+    <tbody>
+      <tr><td><code>address public owner</code></td><td>The contract remembers who its owner is. This is its <b>state</b>.</td></tr>
+      <tr><td><code>constructor</code></td><td>Runs <b>once</b>, when the contract is put on the blockchain. Whoever does that becomes the owner.</td></tr>
+      <tr><td><code>deposit() payable</code></td><td>Anyone can call it and send ETH along. The contract keeps the ETH.</td></tr>
+      <tr><td><code>withdraw()</code></td><td><code>require(...)</code> is a <b>rule</b>: if the caller isn't the owner, the whole call is cancelled. Otherwise it sends all the ETH to the owner.</td></tr>
+      <tr><td><code>getBalance() view</code></td><td>Just <b>reads</b> how much ETH is inside. It changes nothing, so it's free.</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="box widget">
+    <h3>Try it: use the piggy bank</h3>
+    <p class="muted" style="margin:0">A practice blockchain with two accounts. Green code lines show what ran; red means a rule stopped the call.</p>
+    <div class="scroll"><table>
+      <thead><tr><th>Account</th><th>Balance</th></tr></thead>
+      <tbody id="accounts"></tbody>
+    </table></div>
+    <label>Acting as <select id="who"><option value="0">Account 1</option><option value="1">Account 2</option></select></label>
+    <div class="row">
+      <button id="deploy">1. Deploy the contract</button>
+    </div>
+    <div class="out" id="contract">Not deployed yet.</div>
+    <div class="row">
+      <label style="width:9em">Amount (ETH) <input id="amount" value="2" inputmode="decimal"></label>
+      <button id="deposit">deposit()</button>
+      <button id="withdraw">withdraw()</button>
+      <button id="read">getBalance()</button>
+    </div>
+    <div id="err" class="err"></div>
+    <div class="log" id="log"></div>
+  </div>
+  <ol>
+    <li>As <b>Account 1</b>, click <b>Deploy</b>. Account 1 is now the owner.</li>
+    <li>Switch to <b>Account 2</b> and <b>deposit()</b> 2 ETH. The piggy bank now holds it.</li>
+    <li>Still as Account 2, try <b>withdraw()</b>. The <code>require</code> rule stops it: <b>reverted</b>, and nothing changes.</li>
+    <li>Switch to <b>Account 1</b> and <b>withdraw()</b>. The owner gets everything.</li>
+    <li>Click <b>getBalance()</b> any time. Reading is free; it costs no fee.</li>
+  </ol>
+
+  <div class="callout">⚠️ <b>Code can't be changed after deploying</b>, and that includes bugs. If a contract has a mistake, it stays there forever, and attackers look for exactly these. That's why real contracts are carefully tested and checked ("audited") before deploying.</div>
+
+  <div class="box">
+    <h3>Optional: deploy it for real in Remix</h3>
+    <p>When you feel ready, try the same contract in <a href="https://remix.ethereum.org">Remix</a>, a free website for writing contracts. It uses a practice blockchain, so there's no wallet or money involved.</p>
+    <ol>
+      <li>In the <b>File explorer</b>, create <code>PiggyBank.sol</code> and paste in <a href="https://github.com/jsklabs-works/web3-lab/blob/main/PiggyBank.sol">this code</a>.</li>
+      <li>Open the <b>Solidity compiler</b> tab and click <b>Compile</b>.</li>
+      <li>Open <b>Deploy &amp; run transactions</b>. Keep Environment on <b>Remix VM</b> and click <b>Deploy</b>.</li>
+      <li>Under Deployed Contracts, set <b>Value</b> to 1 Ether and click <b>deposit</b>. Then pick another account at the top, click <b>withdraw</b>, and read the error in the terminal.</li>
+    </ol>
+    <p class="muted">Remix changes its layout now and then, so the names may look slightly different.</p>
+  </div>
+
+  <section class="check">
+    <h2>Check yourself</h2>
+    <p>Account 2 deposits 2 ETH, then calls <code>withdraw()</code>. What happens, and why? Does the piggy bank's balance change?</p>
+    <details><summary>Show answer</summary>
+      <p>It's <b>rejected (reverted)</b>. The rule <code>require(msg.sender == owner)</code> fails because Account 2 isn't the owner. The whole call is cancelled, so the piggy bank still holds the 2 ETH. On a real network Account 2 would still pay a small fee for the failed attempt, as the playground shows.</p>
+    </details>
+  </section>
+
+  <nav class="pager"><a href="6-life-of-a-transaction.html">← Lesson 6</a><a href="../">Next: Lesson 8 (coming soon) →</a></nav>
+</main>
+<script src="../assets/sha256.js"></script>
+<script>
+  const $ = (id) => document.getElementById(id);
+  const fmt = (n) => (+n.toFixed(6)).toString();
+  const FEE = 0.0001;   // pretend fee for every write
+
+  // The contract source, line by line, so the page can highlight what runs.
+  const SOURCE = [
+    "// SPDX-License-Identifier: MIT",
+    "pragma solidity ^0.8.20;",
+    "",
+    "contract PiggyBank {",
+    "    address public owner;",
+    "",
+    "    constructor() {",
+    "        owner = msg.sender;              // whoever deploys it owns it",
+    "    }",
+    "",
+    "    function deposit() public payable {",
+    "        // anyone can put ETH in",
+    "    }",
+    "",
+    "    function withdraw() public {",
+    "        require(msg.sender == owner, \"Only the owner can withdraw\");",
+    "        (bool sent, ) = owner.call{value: address(this).balance}(\"\");   // send everything to the owner",
+    "        require(sent, \"Sending failed\");",
+    "    }",
+    "",
+    "    function getBalance() public view returns (uint256) {",
+    "        return address(this).balance;",
+    "    }",
+    "}",
+  ];
+  const escape = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+  $("code").innerHTML = SOURCE.map((line) => {
+    const i = line.indexOf("//");
+    const html = i >= 0 ? escape(line.slice(0, i)) + '<span class="c">' + escape(line.slice(i)) + "</span>" : escape(line);
+    return "<div>" + (html || " ") + "</div>";
+  }).join("");
+
+  // Highlight lines (1-based, inclusive). kind = "run" or "fail".
+  function highlight(from, to, kind) {
+    [...$("code").children].forEach((el, i) => {
+      el.className = i + 1 >= from && i + 1 <= to ? kind : "";
+    });
+  }
+
+  const accounts = ["Account 1", "Account 2"].map((name) => ({ name, address: hashOf(name).slice(0, 42), balance: 10 }));
+  let contract = null;   // { address, owner, balance }
+
+  function render() {
+    $("accounts").innerHTML = accounts.map((a) => `<tr><td>${a.name} <span class="muted mono">${a.address.slice(0, 8)}…</span></td><td>${fmt(a.balance)} ETH</td></tr>`).join("");
+    $("contract").innerHTML = contract
+      ? `<b>PiggyBank</b> at <span class="mono">${contract.address.slice(0, 10)}…</span><br>owner: <b>${accounts[contract.owner].name}</b> · holds <b>${fmt(contract.balance)} ETH</b>`
+      : "Not deployed yet.";
+    $("deploy").disabled = !!contract;
+  }
+
+  function log(kind, text) {
+    const div = document.createElement("div");
+    div.innerHTML = `<span class="tag ${kind}">${kind.toUpperCase()}</span>${text}`;
+    $("log").prepend(div);
+  }
+
+  const who = () => +$("who").value;
+  const fail = (msg) => { $("err").textContent = msg; return true; };
+  const needsContract = () => !contract && fail("Deploy the contract first (step 1).");
+  const needsFee = (i, extra = 0) => accounts[i].balance < FEE + extra && fail(`${accounts[i].name} doesn't have enough ETH for this plus the fee.`);
+  ["who", "amount"].forEach((id) => $(id).addEventListener("input", () => ($("err").textContent = "")));
+
+  $("deploy").onclick = () => {
+    $("err").textContent = "";
+    const i = who();
+    if (needsFee(i)) return;
+    accounts[i].balance -= FEE;
+    contract = { address: hashOf("PiggyBank by " + accounts[i].address).slice(0, 42), owner: i, balance: 0 };
+    highlight(7, 9, "run");
+    log("write", `${accounts[i].name} deployed PiggyBank. The constructor ran once, so ${accounts[i].name} is now the owner. Fee ${FEE} ETH.`);
+    render();
+  };
+
+  $("deposit").onclick = () => {
+    $("err").textContent = "";
+    if (needsContract()) return;
+    const i = who(), amount = Number($("amount").value);
+    if (!(amount > 0)) return fail("Enter an amount greater than 0.");
+    if (needsFee(i, amount)) return;
+    accounts[i].balance -= amount + FEE;
+    contract.balance += amount;
+    highlight(11, 13, "run");
+    log("write", `${accounts[i].name} called deposit() with ${fmt(amount)} ETH. The piggy bank now holds ${fmt(contract.balance)} ETH. Fee ${FEE} ETH.`);
+    render();
+  };
+
+  $("withdraw").onclick = () => {
+    $("err").textContent = "";
+    if (needsContract()) return;
+    const i = who();
+    if (needsFee(i)) return;
+    accounts[i].balance -= FEE;   // a failed attempt still pays its fee
+    if (i !== contract.owner) {
+      highlight(16, 16, "fail");
+      log("revert", `${accounts[i].name} called withdraw(): "Only the owner can withdraw". Nothing changed; the piggy bank still holds ${fmt(contract.balance)} ETH. The fee was still paid.`);
+    } else {
+      const amount = contract.balance;
+      accounts[i].balance += amount;
+      contract.balance = 0;
+      highlight(15, 19, "run");
+      log("write", `${accounts[i].name} (the owner) called withdraw() and received ${fmt(amount)} ETH. Fee ${FEE} ETH.`);
+    }
+    render();
+  };
+
+  $("read").onclick = () => {
+    $("err").textContent = "";
+    if (needsContract()) return;
+    highlight(21, 23, "run");
+    log("read", `getBalance() = ${fmt(contract.balance)} ETH. Reading is free: no fee, no block.`);
+  };
+
+  render();
+</script>
+</body>
+</html>

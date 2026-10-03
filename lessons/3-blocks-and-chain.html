@@ -12,6 +12,18 @@
   <h1>Lesson 3: Blocks and the chain</h1>
   <p class="lead">Each block stores the previous block's hash. So changing old data breaks every link after it.</p>
 
+  <section class="words">
+    <h2>Words in this lesson</h2>
+    <p class="muted">Read these first. Each word is explained here before the lesson uses it. All words: <a href="glossary.html">glossary</a>.</p>
+    <dl>
+      <dt id="block">Block</dt><dd>One page of the ledger: a group of transactions plus a little extra information.</dd>
+      <dt id="chain">Chain</dt><dd>Blocks kept in order, each one pointing back to the block before it.</dd>
+      <dt id="prev-hash">Prev hash</dt><dd>The previous block&#x27;s hash, written inside each block. It is the link of the chain.</dd>
+      <dt id="genesis-block">Genesis block</dt><dd>The very first block. It has no block before it.</dd>
+      <dt id="tampering">Tampering</dt><dd>Secretly changing data that is already recorded.</dd>
+    </dl>
+  </section>
+
   <p>The record book is split into <b>pages called blocks</b>. Each block holds four things:</p>
   <ol>
     <li><b>Its number:</b> block 1, 2, 3…</li>

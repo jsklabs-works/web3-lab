@@ -12,6 +12,18 @@
   <h1>Lesson 2: Hashing, a digital fingerprint</h1>
   <p class="lead">A hash turns any data into a short, fixed-length fingerprint. If the data changes, the fingerprint changes completely.</p>
 
+  <section class="words">
+    <h2>Words in this lesson</h2>
+    <p class="muted">Read these first. Each word is explained here before the lesson uses it. All words: <a href="glossary.html">glossary</a>.</p>
+    <dl>
+      <dt id="data">Data</dt><dd>Any information: text, numbers, a file, a whole ledger.</dd>
+      <dt id="hash-function">Hash function</dt><dd>A fixed recipe that turns any data into a short code. The same data always gives the same code.</dd>
+      <dt id="hash">Hash</dt><dd>The short code a hash function produces. It works like a fingerprint of the data.</dd>
+      <dt id="sha-256">SHA-256</dt><dd>The hash function Bitcoin uses. Its hash is always 64 characters long.</dd>
+      <dt id="hexadecimal">Hexadecimal</dt><dd>The characters 0 to 9 and a to f, used to write hashes and addresses.</dd>
+    </dl>
+  </section>
+
   <p>A <b>hash function</b> takes any data (a word, a whole notebook, a movie) and gives back a code of fixed length. Bitcoin uses one called <b>SHA-256</b>, whose code is always 64 characters long. Here are two entries that differ by <b>a single zero</b>:</p>
 
   <figure class="diagram">

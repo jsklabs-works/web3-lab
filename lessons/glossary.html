@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Web3 Glossary</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<main>
+  <nav class="top"><a href="../">← Web3 Lab</a><span>Glossary</span></nav>
+  <h1>Glossary</h1>
+  <p class="lead">Every word used in the course, in plain language, in the order the lessons introduce them.</p>
+  <h2><a href="1-why-blockchain.html">Lesson 1: Why blockchain</a></h2>
+  <section class="words">
+    <dl>
+      <dt id="money-system">Money system</dt><dd>Any way people keep track of who owns money and who paid whom, for example a bank.</dd>
+      <dt id="ledger">Ledger</dt><dd>A record book listing every payment: who paid whom, and how much.</dd>
+      <dt id="transaction">Transaction</dt><dd>One entry in the ledger. Usually a payment, like &quot;A pays B 50&quot;.</dd>
+      <dt id="node">Node</dt><dd>A computer that keeps its own full copy of the ledger and checks every new entry.</dd>
+      <dt id="network">Network</dt><dd>All the nodes, connected to each other over the internet.</dd>
+      <dt id="consensus">Consensus</dt><dd>The nodes agreeing on one single version of the ledger.</dd>
+      <dt id="blockchain">Blockchain</dt><dd>A ledger copied across many nodes, stored as pages (called blocks) linked together. Lessons 2 to 5 explain how.</dd>
+    </dl>
+  </section>
+  <h2><a href="2-hashing.html">Lesson 2: Hashing</a></h2>
+  <section class="words">
+    <dl>
+      <dt id="data">Data</dt><dd>Any information: text, numbers, a file, a whole ledger.</dd>
+      <dt id="hash-function">Hash function</dt><dd>A fixed recipe that turns any data into a short code. The same data always gives the same code.</dd>
+      <dt id="hash">Hash</dt><dd>The short code a hash function produces. It works like a fingerprint of the data.</dd>
+      <dt id="sha-256">SHA-256</dt><dd>The hash function Bitcoin uses. Its hash is always 64 characters long.</dd>
+      <dt id="hexadecimal">Hexadecimal</dt><dd>The characters 0 to 9 and a to f, used to write hashes and addresses.</dd>
+    </dl>
+  </section>
+  <h2><a href="3-blocks-and-chain.html">Lesson 3: Blocks and the chain</a></h2>
+  <section class="words">
+    <dl>
+      <dt id="block">Block</dt><dd>One page of the ledger: a group of transactions plus a little extra information.</dd>
+      <dt id="chain">Chain</dt><dd>Blocks kept in order, each one pointing back to the block before it.</dd>
+      <dt id="prev-hash">Prev hash</dt><dd>The previous block&#x27;s hash, written inside each block. It is the link of the chain.</dd>
+      <dt id="genesis-block">Genesis block</dt><dd>The very first block. It has no block before it.</dd>
+      <dt id="tampering">Tampering</dt><dd>Secretly changing data that is already recorded.</dd>
+    </dl>
+  </section>
+  <h2><a href="4-wallets-and-signatures.html">Lesson 4: Wallets, keys and signatures</a></h2>
+  <section class="words">
+    <dl>
+      <dt id="key">Key</dt><dd>A very large number used to sign or check messages.</dd>
+      <dt id="private-key">Private key</dt><dd>Your secret key. It creates signatures. Never share it.</dd>
+      <dt id="public-key">Public key</dt><dd>The key made from your private key. It lets anyone check your signatures. Safe to share.</dd>
+      <dt id="address">Address</dt><dd>A short version (a hash) of your public key. Like an account number that others use to pay you.</dd>
+      <dt id="signature">Signature</dt><dd>A code made from a message plus your private key. It proves the message came from you and wasn&#x27;t changed.</dd>
+      <dt id="verify">Verify</dt><dd>Check a signature using the public key.</dd>
+      <dt id="wallet">Wallet</dt><dd>An app that keeps your keys and signs for you. Your coins are recorded on the blockchain, not inside the app.</dd>
+      <dt id="seed-phrase">Seed phrase</dt><dd>12 or 24 words that back up your private keys. Whoever has them controls your money.</dd>
+    </dl>
+  </section>
+  <h2><a href="5-mining.html">Lesson 5: Mining</a></h2>
+  <section class="words">
+    <dl>
+      <dt id="mining">Mining</dt><dd>Creating the next block by solving a guessing puzzle, then adding it to the end of the chain.</dd>
+      <dt id="miner">Miner</dt><dd>A computer, or the person running it, that does mining.</dd>
+      <dt id="nonce-mining">Nonce (mining)</dt><dd>A number the miner keeps changing until the block&#x27;s hash starts with enough zeros.</dd>
+      <dt id="difficulty">Difficulty</dt><dd>How hard the puzzle is, for example how many zeros the hash must start with.</dd>
+      <dt id="proof-of-work">Proof of Work</dt><dd>The rule that you may add a block only after showing you did the puzzle work. Bitcoin uses it.</dd>
+      <dt id="reward">Reward</dt><dd>What the block creator earns: newly created coins plus the fees from the block&#x27;s transactions.</dd>
+      <dt id="51-attack">51% attack</dt><dd>Trying to rewrite history by controlling more than half of the network&#x27;s power.</dd>
+      <dt id="proof-of-stake">Proof of Stake</dt><dd>Another way to choose who adds blocks: people lock up coins as a deposit and get picked at random. Ethereum uses it.</dd>
+      <dt id="validator">Validator</dt><dd>Someone who has locked up coins and takes turns adding blocks in Proof of Stake.</dd>
+      <dt id="stake">Stake</dt><dd>Coins locked up as a deposit. Cheaters lose part of it.</dd>
+    </dl>
+  </section>
+  <h2><a href="recap-big-picture.html">Recap: the big picture</a></h2>
+  <section class="words">
+    <dl>
+      <dt id="bitcoin-btc">Bitcoin (BTC)</dt><dd>The first blockchain, made for digital money. BTC is its coin.</dd>
+      <dt id="ethereum-eth">Ethereum (ETH)</dt><dd>A blockchain that can also run programs (Lesson 7). ETH is its coin.</dd>
+      <dt id="coin">Coin</dt><dd>The built-in money of a blockchain, used to pay and to pay fees: BTC, ETH, SOL.</dd>
+      <dt id="token">Token</dt><dd>Money or points created by a program on someone else&#x27;s blockchain, like USDC on Ethereum.</dd>
+      <dt id="exchange">Exchange</dt><dd>A company or app where you buy and sell coins with normal money.</dd>
+      <dt id="stablecoin">Stablecoin</dt><dd>A token designed to always be worth $1, backed by real dollars held in reserve.</dd>
+      <dt id="volatile">Volatile</dt><dd>Price goes up and down a lot, quickly.</dd>
+      <dt id="layer-2">Layer 2</dt><dd>A faster, cheaper network built on top of Ethereum that saves its results back to Ethereum.</dd>
+    </dl>
+  </section>
+  <h2><a href="6-life-of-a-transaction.html">Lesson 6: The life of a transaction</a></h2>
+  <section class="words">
+    <dl>
+      <dt id="eth-ether">ETH (ether)</dt><dd>Ethereum&#x27;s coin. You send it, and you pay fees with it.</dd>
+      <dt id="test-network-testnet">Test network (testnet)</dt><dd>A practice copy of a blockchain whose coins are free and worthless.</dd>
+      <dt id="sepolia">Sepolia</dt><dd>Ethereum&#x27;s main test network.</dd>
+      <dt id="fee-gas">Fee (gas)</dt><dd>A small charge for a transaction, paid to whoever adds it to a block.</dd>
+      <dt id="gwei">Gwei</dt><dd>A tiny unit of ETH used for fees: 1 gwei = 0.000000001 ETH.</dd>
+      <dt id="mempool">Mempool</dt><dd>The waiting room where signed transactions sit until they&#x27;re put in a block.</dd>
+      <dt id="block-explorer">Block explorer</dt><dd>A website for looking up anything on a blockchain. Etherscan is the one for Ethereum.</dd>
+      <dt id="transaction-hash">Transaction hash</dt><dd>A transaction&#x27;s fingerprint. You use it to look the transaction up.</dd>
+      <dt id="nonce-account">Nonce (account)</dt><dd>Counts how many transactions an account has sent: 0, 1, 2… Different from the mining nonce.</dd>
+      <dt id="confirmation">Confirmation</dt><dd>Each new block added after yours. More confirmations mean it&#x27;s harder to undo.</dd>
+    </dl>
+  </section>
+  <h2><a href="7-smart-contracts.html">Lesson 7: Smart contracts</a></h2>
+  <section class="words">
+    <dl>
+      <dt id="program-code">Program (code)</dt><dd>Step-by-step instructions that a computer follows exactly.</dd>
+      <dt id="smart-contract">Smart contract</dt><dd>A program stored on the blockchain. Anyone can use it, and nobody can change it.</dd>
+      <dt id="solidity">Solidity</dt><dd>The programming language most Ethereum smart contracts are written in.</dd>
+      <dt id="deploy">Deploy</dt><dd>Put a contract on the blockchain. After that its code can&#x27;t be changed.</dd>
+      <dt id="contract-address">Contract address</dt><dd>Where a deployed contract lives, like a wallet address. It can hold ETH.</dd>
+      <dt id="function">Function</dt><dd>One action a contract offers, like deposit() or withdraw().</dd>
+      <dt id="call">Call</dt><dd>Use a function, for example &quot;call withdraw()&quot;.</dd>
+      <dt id="state">State</dt><dd>The information a contract remembers, like who its owner is and how much ETH it holds.</dd>
+      <dt id="owner">Owner</dt><dd>In our example, the account that deployed the contract. The contract&#x27;s rules give it special rights.</dd>
+      <dt id="revert">Revert</dt><dd>A rule failed, so the whole call is cancelled and nothing changes.</dd>
+    </dl>
+  </section>
+
+  <nav class="pager"><a href="../">← Home</a><a href="1-why-blockchain.html">Start Lesson 1 →</a></nav>
+</main>
+</body>
+</html>
