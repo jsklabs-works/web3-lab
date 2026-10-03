@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LRN Token Dashboard</title>
+
+  <!-- ethers.js: the library that lets JavaScript talk to Ethereum. -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.13.4/ethers.umd.min.js"></script>
+
+  <style>
+    :root {
+      --bg: #f6f7f9; --card: #ffffff; --text: #1b1f24; --muted: #5f6b7a;
+      --border: #dde2e8; --accent: #4f46e5; --accent-text: #ffffff;
+      --ok: #15803d; --err: #b91c1c; --read: #0369a1; --write: #b45309; --event: #7e22ce;
+      --code: #eef1f5;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0f1216; --card: #171b21; --text: #e6e9ee; --muted: #9aa5b4;
+        --border: #2a313a; --accent: #818cf8; --accent-text: #0f1216;
+        --ok: #4ade80; --err: #f87171; --read: #38bdf8; --write: #fbbf24; --event: #c084fc;
+        --code: #222831;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; background: var(--bg); color: var(--text);
+      font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+    }
+    main { max-width: 980px; margin: 0 auto; padding: 24px 16px 48px; }
+    h1 { font-size: 24px; margin: 0 0 4px; }
+    h2 { font-size: 16px; margin: 0 0 12px; }
+    .sub { color: var(--muted); margin: 0 0 20px; }
+    .grid { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+    @media (max-width: 760px) { .grid { grid-template-columns: minmax(0, 1fr); } }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+    .full { grid-column: 1 / -1; }
+    .step { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+    dl { display: grid; grid-template-columns: max-content 1fr; gap: 6px 12px; margin: 0; }
+    dt { color: var(--muted); }
+    dd { margin: 0; overflow-wrap: anywhere; font-variant-numeric: tabular-nums; }
+    label { display: block; font-size: 13px; color: var(--muted); margin: 10px 0 4px; }
+    input {
+      width: 100%; padding: 8px 10px; border-radius: 6px; border: 1px solid var(--border);
+      background: var(--bg); color: var(--text); font: inherit;
+    }
+    button {
+      margin-top: 12px; padding: 8px 14px; border-radius: 6px; border: 0;
+      background: var(--accent); color: var(--accent-text); font: inherit; font-weight: 600; cursor: pointer;
+    }
+    button:disabled { opacity: .5; cursor: not-allowed; }
+    .hint { font-size: 13px; color: var(--muted); margin: 8px 0 0; }
+    code { background: var(--code); padding: 1px 5px; border-radius: 4px; font-size: 13px; }
+    a { color: var(--accent); }
+    #log {
+      font: 12.5px/1.6 ui-monospace, SFMono-Regular, Menlo, monospace;
+      background: var(--code); border-radius: 6px; padding: 10px; height: 240px; overflow-y: auto; margin: 0; white-space: pre-wrap;
+    }
+    .card.full:last-child { overflow-x: auto; }
+    #log div { overflow-wrap: anywhere; }
+    .tag { font-weight: 700; }
+    .t-read { color: var(--read); } .t-write { color: var(--write); } .t-event { color: var(--event); }
+    .t-ok { color: var(--ok); } .t-err { color: var(--err); } .t-info { color: var(--muted); }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--border); }
+    th { color: var(--muted); font-weight: 500; }
+    td { font-variant-numeric: tabular-nums; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>LRN Token Dashboard</h1>
+  <p class="sub">A dApp page for your <code>MyToken.sol</code> contract on the Sepolia test network.
+    The <b>What's happening</b> panel lists every blockchain call this page makes.</p>
+
+  <div class="grid">
+    <!-- STEP 0: read-only connection — no wallet needed -->
+    <section class="card">
+      <div class="step">Step 0 · no wallet needed</div>
+      <h2>The network</h2>
+      <dl>
+        <dt>Network</dt><dd>Sepolia (chain id 11155111)</dd>
+        <dt>Latest block</dt><dd id="blockNumber">…</dd>
+        <dt>Gas price</dt><dd id="gasPrice">…</dd>
+      </dl>
+      <p class="hint">Anyone can read a blockchain for free through a public RPC node. A new block arrives about every 12 seconds.</p>
+    </section>
+
+    <!-- STEP 1: connect MetaMask -->
+    <section class="card">
+      <div class="step">Step 1</div>
+      <h2>Your wallet</h2>
+      <dl>
+        <dt>Address</dt><dd id="account">not connected</dd>
+        <dt>ETH balance</dt><dd id="ethBalance">–</dd>
+      </dl>
+      <button id="connectBtn">Connect MetaMask</button>
+      <p class="hint" id="walletHint">Connecting shares your <i>address</i> with this page. It never shares your private key.</p>
+    </section>
+
+    <!-- STEP 2: load the token -->
+    <section class="card">
+      <div class="step">Step 2</div>
+      <h2>Your token</h2>
+      <label for="tokenAddress">Token contract address (from Remix after deploying)</label>
+      <input id="tokenAddress" placeholder="0x…" spellcheck="false" />
+      <button id="loadBtn">Load token</button>
+      <dl style="margin-top:14px">
+        <dt>Name</dt><dd id="tName">–</dd>
+        <dt>Symbol</dt><dd id="tSymbol">–</dd>
+        <dt>Total supply</dt><dd id="tSupply">–</dd>
+        <dt>Your balance</dt><dd id="tBalance">–</dd>
+      </dl>
+    </section>
+
+    <!-- STEP 3: send tokens -->
+    <section class="card">
+      <div class="step">Step 3 · costs a little test ETH</div>
+      <h2>Send tokens</h2>
+      <label for="toAddress">Recipient address</label>
+      <input id="toAddress" placeholder="0x…" spellcheck="false" />
+      <label for="amount">Amount (in whole tokens, e.g. 10)</label>
+      <input id="amount" placeholder="10" inputmode="decimal" />
+      <button id="sendBtn" disabled>Send</button>
+      <p class="hint">You type <code>10</code>, and the page sends <code>10 × 10¹⁸</code> for you with <code>parseUnits</code>.</p>
+    </section>
+
+    <!-- Live log -->
+    <section class="card full">
+      <h2>What's happening</h2>
+      <pre id="log"></pre>
+      <p class="hint">
+        <span class="tag t-read">READ</span> free, answered by one node ·
+        <span class="tag t-write">WRITE</span> a transaction: signed by you, costs gas, and stored in a block ·
+        <span class="tag t-event">EVENT</span> a log entry emitted by the contract
+      </p>
+    </section>
+
+    <!-- Transfer history -->
+    <section class="card full">
+      <h2>Recent transfers of this token</h2>
+      <table>
+        <thead><tr><th>Block</th><th>From</th><th>To</th><th>Amount</th></tr></thead>
+        <tbody id="history"><tr><td colspan="4" class="t-info">Load a token to see its history.</td></tr></tbody>
+      </table>
+    </section>
+  </div>
+</main>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+//  SETUP
+// ═══════════════════════════════════════════════════════════════
+
+const SEPOLIA_CHAIN_ID = 11155111n;
+const PUBLIC_RPC = "https://ethereum-sepolia-rpc.publicnode.com";
+
+// An ABI ("Application Binary Interface") is the contract's menu: which
+// functions exist and what they take and return. ethers accepts it in plain
+// text. These lines match the functions you wrote in MyToken.sol.
+const TOKEN_ABI = [
+  "function name() view returns (string)",
+  "function symbol() view returns (string)",
+  "function decimals() view returns (uint8)",
+  "function totalSupply() view returns (uint256)",
+  "function balanceOf(address owner) view returns (uint256)",
+  "function transfer(address to, uint256 amount) returns (bool)",
+  "event Transfer(address indexed from, address indexed to, uint256 value)",
+];
+
+// Two kinds of "provider" (connection to the blockchain):
+//  • readProvider: a public node. Free and read-only, no wallet needed.
+//  • walletProvider: MetaMask. Needed to SIGN transactions as you.
+const readProvider = new ethers.JsonRpcProvider(PUBLIC_RPC, SEPOLIA_CHAIN_ID, { staticNetwork: true });
+let walletProvider = null;
+let signer = null;        // represents "you", and can sign transactions
+let account = null;       // your address
+let token = null;         // the contract, connected for reading
+let tokenInfo = null;     // { name, symbol, decimals }
+
+const $ = (id) => document.getElementById(id);
+const short = (addr) => addr.slice(0, 6) + "…" + addr.slice(-4);
+const etherscan = (kind, value) => `https://sepolia.etherscan.io/${kind}/${value}`;
+
+function log(kind, message) {
+  const line = document.createElement("div");
+  const time = new Date().toLocaleTimeString();
+  line.innerHTML = `<span class="t-info">${time}</span> <span class="tag t-${kind}">${kind.toUpperCase().padEnd(5)}</span> ${message}`;
+  $("log").appendChild(line);
+  $("log").scrollTop = $("log").scrollHeight;
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  STEP 0 — read the network with no wallet at all
+// ═══════════════════════════════════════════════════════════════
+
+async function refreshNetwork() {
+  try {
+    const [block, fee] = await Promise.all([readProvider.getBlockNumber(), readProvider.getFeeData()]);
+    $("blockNumber").textContent = block.toLocaleString();
+    $("gasPrice").textContent = Number(ethers.formatUnits(fee.gasPrice ?? 0n, "gwei")).toFixed(3) + " gwei";
+  } catch (e) {
+    $("blockNumber").textContent = "unreachable";
+    log("err", "Could not reach the public Sepolia node: " + (e.shortMessage ?? e.message));
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  STEP 1 — connect MetaMask
+// ═══════════════════════════════════════════════════════════════
+
+async function connectWallet() {
+  if (!window.ethereum) {
+    log("err", "No wallet found. Install MetaMask, then open this page from a web address, such as the GitHub Pages link or <code>http://localhost</code>. Wallets don't run on file:// pages.");
+    return;
+  }
+  walletProvider = new ethers.BrowserProvider(window.ethereum);
+
+  log("info", "Asking MetaMask for permission to see your address…");
+  await walletProvider.send("eth_requestAccounts", []);
+
+  // Make sure the wallet is on Sepolia, not real-money Ethereum mainnet.
+  const { chainId } = await walletProvider.getNetwork();
+  if (chainId !== SEPOLIA_CHAIN_ID) {
+    log("info", `Wallet is on chain ${chainId}. Asking to switch to Sepolia…`);
+    await window.ethereum.request({ method: "wallet_switchEthereumChain", params: [{ chainId: "0xaa36a7" }] });
+    walletProvider = new ethers.BrowserProvider(window.ethereum);
+  }
+
+  signer = await walletProvider.getSigner();
+  account = await signer.getAddress();
+  $("account").innerHTML = `<a href="${etherscan("address", account)}" target="_blank" rel="noopener">${account}</a>`;
+  $("connectBtn").textContent = "Connected";
+  $("connectBtn").disabled = true;
+  log("ok", `Connected as ${short(account)}`);
+
+  await refreshBalances();
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  STEP 2 — load the token contract
+// ═══════════════════════════════════════════════════════════════
+
+async function loadToken() {
+  const address = $("tokenAddress").value.trim();
+  if (!ethers.isAddress(address)) {
+    log("err", "That doesn't look like an address. It should be 0x followed by 40 hex characters.");
+    return;
+  }
+
+  // Is there actually a contract at this address? Plain wallets have no code.
+  const code = await readProvider.getCode(address);
+  if (code === "0x") {
+    log("err", `No contract at ${short(address)} on Sepolia. Did you deploy to Remix VM instead of Sepolia?`);
+    return;
+  }
+
+  if (token) token.removeAllListeners();
+  token = new ethers.Contract(address, TOKEN_ABI, readProvider);
+  try { localStorage.setItem("lrn-token", address); } catch {}
+
+  log("read", `name(), symbol(), decimals(), totalSupply() on ${short(address)}`);
+  const [name, symbol, decimals, supply] = await Promise.all([
+    token.name(), token.symbol(), token.decimals(), token.totalSupply(),
+  ]);
+  tokenInfo = { name, symbol, decimals };
+
+  $("tName").textContent = name;
+  $("tSymbol").textContent = symbol;
+  $("tSupply").textContent = `${fmt(supply)} ${symbol}`;
+  log("ok", `Loaded ${name} (${symbol}). The raw supply is <code>${supply}</code>, shown as ${fmt(supply)} after dividing by 10^${decimals}.`);
+
+  await refreshBalances();
+  await loadHistory();
+  listenForTransfers();
+  $("sendBtn").disabled = !signer;
+}
+
+// Turn raw units (1000000000000000000000) into human units (1,000).
+const fmt = (raw) => Number(ethers.formatUnits(raw, tokenInfo.decimals)).toLocaleString(undefined, { maximumFractionDigits: 6 });
+
+async function refreshBalances() {
+  if (!account) return;
+  const eth = await readProvider.getBalance(account);
+  $("ethBalance").textContent = `${Number(ethers.formatEther(eth)).toFixed(4)} SepoliaETH`;
+  if (Number(eth) === 0) $("walletHint").innerHTML = "You have 0 test ETH. Get some free from a Sepolia faucet to pay for gas.";
+
+  if (token) {
+    log("read", `balanceOf(${short(account)})`);
+    const bal = await token.balanceOf(account);
+    $("tBalance").textContent = `${fmt(bal)} ${tokenInfo.symbol}`;
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  STEP 3 — send tokens (a WRITE: needs your signature + gas)
+// ═══════════════════════════════════════════════════════════════
+
+async function sendTokens() {
+  const to = $("toAddress").value.trim();
+  const amountText = $("amount").value.trim();
+  if (!ethers.isAddress(to)) return log("err", "Recipient address is not valid.");
+  if (!(Number(amountText) > 0)) return log("err", "Enter an amount greater than 0.");
+
+  // "10" → 10000000000000000000n. This fixes the 18-zeros problem from Remix.
+  const amount = ethers.parseUnits(amountText, tokenInfo.decimals);
+
+  // A contract connected to the signer can WRITE. Connected to readProvider, it can only read.
+  const tokenWithSigner = token.connect(signer);
+
+  $("sendBtn").disabled = true;
+  try {
+    log("write", `transfer(${short(to)}, ${amount}). Check MetaMask to confirm…`);
+    const tx = await tokenWithSigner.transfer(to, amount);
+
+    // The transaction now sits in the "mempool", waiting for a block.
+    log("info", `Sent to the network. Tx hash: <a href="${etherscan("tx", tx.hash)}" target="_blank" rel="noopener">${short(tx.hash)}</a>. Waiting for it to be mined…`);
+
+    const receipt = await tx.wait();   // wait until it's included in a block
+    const feeEth = ethers.formatEther(receipt.gasUsed * receipt.gasPrice);
+    log("ok", `Confirmed in block ${receipt.blockNumber}. Gas used: ${receipt.gasUsed} (fee ≈ ${Number(feeEth).toFixed(6)} ETH)`);
+    await refreshBalances();
+  } catch (e) {
+    // Common: user clicked Reject, or the contract's `require` failed (a "revert").
+    const reason = e.code === "ACTION_REJECTED" ? "You rejected it in MetaMask." : (e.reason ?? e.shortMessage ?? e.message);
+    log("err", "Transaction failed: " + reason);
+  } finally {
+    $("sendBtn").disabled = false;
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  EVENTS — the Transfer logs your contract emits
+// ═══════════════════════════════════════════════════════════════
+
+async function loadHistory() {
+  const latest = await readProvider.getBlockNumber();
+  const from = Math.max(0, latest - 9000);     // public nodes limit how far back you can search at once
+  log("read", `queryFilter(Transfer) over blocks ${from.toLocaleString()} → ${latest.toLocaleString()}`);
+  try {
+    const events = await token.queryFilter(token.filters.Transfer(), from, latest);
+    const rows = events.slice(-15).reverse().map((ev) => historyRow(ev.blockNumber, ev.args.from, ev.args.to, ev.args.value));
+    $("history").innerHTML = rows.join("") || `<tr><td colspan="4" class="t-info">No transfers in the last ~30 hours of blocks.</td></tr>`;
+  } catch (e) {
+    $("history").innerHTML = `<tr><td colspan="4" class="t-info">The public node refused the history query. Try again later.</td></tr>`;
+  }
+}
+
+function historyRow(block, from, to, value) {
+  const who = (a) => a === ethers.ZeroAddress ? "<i>minted</i>" : (a === account ? "<b>you</b>" : short(a));
+  return `<tr><td>${block}</td><td>${who(from)}</td><td>${who(to)}</td><td>${fmt(value)} ${tokenInfo.symbol}</td></tr>`;
+}
+
+function listenForTransfers() {
+  // ethers checks for new matching logs every few seconds.
+  token.on("Transfer", (from, to, value, payload) => {
+    log("event", `Transfer: ${short(from)} → ${short(to)}, ${fmt(value)} ${tokenInfo.symbol}`);
+    $("history").insertAdjacentHTML("afterbegin", historyRow(payload.log.blockNumber, from, to, value));
+    refreshBalances();
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  WIRING
+// ═══════════════════════════════════════════════════════════════
+
+const safely = (fn) => () => fn().catch((e) => log("err", e.shortMessage ?? e.message));
+$("connectBtn").onclick = safely(connectWallet);
+$("loadBtn").onclick = safely(loadToken);
+$("sendBtn").onclick = safely(sendTokens);
+
+// If you switch accounts or networks in MetaMask, start fresh.
+if (window.ethereum) {
+  window.ethereum.on?.("accountsChanged", () => location.reload());
+  window.ethereum.on?.("chainChanged", () => location.reload());
+}
+
+try { $("tokenAddress").value = localStorage.getItem("lrn-token") ?? ""; } catch {}
+
+log("info", window.ethereum ? "Wallet detected. Click Connect MetaMask." : "No wallet detected. Reading still works; sending needs MetaMask.");
+refreshNetwork();
+setInterval(refreshNetwork, 12000);
+</script>
+</body>
+</html>

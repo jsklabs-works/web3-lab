@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Web3 Lab</title>
+<style>
+  :root {
+    --bg: #f6f7f9; --card: #ffffff; --text: #1b1f24; --muted: #5f6b7a;
+    --border: #dde2e8; --accent: #4f46e5; --done: #166534; --done-bg: #e3f4e8;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0f1216; --card: #171b21; --text: #e6e9ee; --muted: #9aa5b4;
+      --border: #2a313a; --accent: #a5b4fc; --done: #86efac; --done-bg: #12301d;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.6 system-ui, -apple-system, sans-serif; }
+  main { max-width: 760px; margin: 0 auto; padding: 32px 16px 56px; }
+  h1 { font-size: 28px; margin: 0 0 4px; }
+  h2 { font-size: 18px; margin: 32px 0 12px; }
+  .sub { color: var(--muted); margin: 0; }
+  .grid { display: grid; gap: 12px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  @media (max-width: 600px) { .grid { grid-template-columns: minmax(0, 1fr); } }
+  a.card { display: block; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; color: inherit; text-decoration: none; }
+  a.card:hover { border-color: var(--accent); }
+  .card b { display: block; color: var(--accent); margin-bottom: 4px; }
+  .card span { color: var(--muted); font-size: 14px; }
+  ol { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; }
+  li { display: flex; gap: 10px; align-items: baseline; background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 8px 12px; }
+  .n { color: var(--muted); font-variant-numeric: tabular-nums; min-width: 1.5em; }
+  .tag { margin-left: auto; font-size: 12px; padding: 1px 8px; border-radius: 999px; color: var(--muted); border: 1px solid var(--border); white-space: nowrap; }
+  .tag.done { color: var(--done); background: var(--done-bg); border-color: transparent; }
+  footer { margin-top: 32px; color: var(--muted); font-size: 14px; }
+  footer a { color: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <h1>Web3 Lab</h1>
+  <p class="sub">Learning blockchain, crypto and web3 step by step, with hands-on practice.</p>
+
+  <h2>Practice</h2>
+  <div class="grid">
+    <a class="card" href="practice-ethereum.html">
+      <b>Practice Ethereum</b>
+      <span>Send pretend ETH between accounts and watch payments wait, get put in blocks, and show up like on Etherscan. No wallet needed.</span>
+    </a>
+    <a class="card" href="token-dashboard.html">
+      <b>Token dashboard</b>
+      <span>Connect MetaMask and use your own LRN token on the Sepolia test network. For Lessons 8–9.</span>
+    </a>
+    <a class="card" href="https://github.com/jsklabs-works/web3-lab/blob/main/mini-blockchain.js">
+      <b>mini-blockchain.js</b>
+      <span>A tiny blockchain in one file: hashing, blocks, signatures and mining. Run it with <code>node mini-blockchain.js</code>.</span>
+    </a>
+    <a class="card" href="https://github.com/jsklabs-works/web3-lab/blob/main/MyToken.sol">
+      <b>MyToken.sol</b>
+      <span>A simple token contract with every line explained. Paste it into Remix in Lesson 8.</span>
+    </a>
+  </div>
+
+  <h2>Lessons</h2>
+  <ol>
+    <li><span class="n">1</span>Why blockchain: everyone keeps a copy of the record book<span class="tag done">Done</span></li>
+    <li><span class="n">2</span>Hashing: a digital fingerprint<span class="tag done">Done</span></li>
+    <li><span class="n">3</span>Blocks and the chain<span class="tag done">Done</span></li>
+    <li><span class="n">4</span>Wallets: keys and signatures<span class="tag done">Done</span></li>
+    <li><span class="n">5</span>Mining: who adds the next block<span class="tag done">Done</span></li>
+    <li><span class="n">6</span>The life of a transaction<span class="tag done">Done</span></li>
+    <li><span class="n">7</span>Smart contracts: code that lives on the blockchain<span class="tag">Next</span></li>
+    <li><span class="n">8</span>Tokens: your own coin<span class="tag">Later</span></li>
+    <li><span class="n">9</span>dApps: a web page that talks to the blockchain<span class="tag">Later</span></li>
+  </ol>
+
+  <footer>Everything here uses test networks or pretend money. Never share a seed phrase or private key. · <a href="https://github.com/jsklabs-works/web3-lab">Source on GitHub</a></footer>
+</main>
+</body>
+</html>
