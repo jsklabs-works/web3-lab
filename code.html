@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Code Viewer</title>
+<link rel="stylesheet" href="assets/style.css">
+<style>
+  .code { background: var(--code); border-radius: 8px; padding: 12px 14px; overflow-x: auto; font: 13.5px/1.6 ui-monospace, Menlo, monospace; white-space: pre; margin: 0; }
+</style>
+</head>
+<body>
+<main>
+  <nav class="top"><a href="./">← Web3 Lab</a><span>Code</span></nav>
+  <h1 id="name">Code</h1>
+  <p class="lead" id="about"></p>
+  <div class="row" style="margin-bottom:12px">
+    <button id="copy" class="btn-copy" style="padding:8px 14px;border:1px solid var(--border);border-radius:6px;background:var(--card);color:var(--text);font:inherit;cursor:pointer">Copy code</button>
+    <a id="download" download>Download file</a>
+    <span id="copied" class="muted"></span>
+  </div>
+  <pre class="code" id="code">Loading…</pre>
+</main>
+<script>
+  // Only these files can be shown.
+  const FILES = {
+    "mini-blockchain.js": "A tiny blockchain in one file: hashing, blocks, signatures and mining. Run it with: node mini-blockchain.js",
+    "MyToken.sol": "A simple token contract with every line explained. For Lesson 8, paste it into Remix.",
+    "PiggyBank.sol": "The piggy bank smart contract from Lesson 7. Paste it into Remix to deploy it on a practice blockchain.",
+  };
+  const name = new URLSearchParams(location.search).get("f");
+  const el = (id) => document.getElementById(id);
+
+  if (!FILES[name]) {
+    el("name").textContent = "File not found";
+    el("code").textContent = "Pick a file from the home page.";
+    el("copy").hidden = true;
+    el("download").hidden = true;
+  } else {
+    document.title = name;
+    el("name").textContent = name;
+    el("about").textContent = FILES[name];
+    el("download").href = name;
+    fetch(name)
+      .then((r) => (r.ok ? r.text() : Promise.reject(r.status)))
+      .then((text) => (el("code").textContent = text))
+      .catch(() => (el("code").textContent = "Couldn't load the file. Try refreshing the page."));
+    el("copy").onclick = async () => {
+      try {
+        await navigator.clipboard.writeText(el("code").textContent);
+        el("copied").textContent = "Copied!";
+      } catch {
+        el("copied").textContent = "Couldn't copy. Select the code and copy it by hand.";
+      }
+    };
+  }
+</script>
+</body>
+</html>
