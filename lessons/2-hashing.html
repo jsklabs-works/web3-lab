@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lesson 2: Hashing</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<main>
+  <nav class="top"><a href="../">← Web3 Lab</a><span>Lesson 2 of 9</span></nav>
+  <h1>Lesson 2: Hashing, a digital fingerprint</h1>
+  <p class="lead">A hash turns any data into a short, fixed-length fingerprint. If the data changes, the fingerprint changes completely.</p>
+
+  <p>A <b>hash function</b> takes any data (a word, a whole notebook, a movie) and gives back a code of fixed length. Bitcoin uses one called <b>SHA-256</b>, whose code is always 64 characters long. Here are two entries that differ by <b>a single zero</b>:</p>
+
+  <figure class="diagram">
+    <svg viewBox="0 0 680 214" role="img"><title>Hashing two similar inputs</title><desc>"A pays B 50" and "A pays B 500" each go through SHA-256 and produce completely different fingerprints.</desc>
+      <defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path class="arrowhead" d="M2 1L8 5L2 9" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+      <g class="c-purple"><rect x="40" y="50" width="150" height="44" rx="8"/><text class="th" x="115" y="72" text-anchor="middle" dominant-baseline="central">A pays B 50</text></g>
+      <line class="arr" x1="194" y1="72" x2="256" y2="72" marker-end="url(#ah)"/>
+      <g class="c-gray"><rect x="260" y="50" width="120" height="44" rx="8"/><text class="th" x="320" y="72" text-anchor="middle" dominant-baseline="central">SHA-256</text></g>
+      <line class="arr" x1="384" y1="72" x2="456" y2="72" marker-end="url(#ah)"/>
+      <g class="c-teal"><rect x="460" y="50" width="180" height="44" rx="8"/><text class="th" x="550" y="72" text-anchor="middle" dominant-baseline="central">b278e5a2…5647cd</text></g>
+      <g class="c-purple"><rect x="40" y="130" width="150" height="44" rx="8"/><text class="th" x="115" y="152" text-anchor="middle" dominant-baseline="central">A pays B 500</text></g>
+      <line class="arr" x1="194" y1="152" x2="256" y2="152" marker-end="url(#ah)"/>
+      <g class="c-gray"><rect x="260" y="130" width="120" height="44" rx="8"/><text class="th" x="320" y="152" text-anchor="middle" dominant-baseline="central">SHA-256</text></g>
+      <line class="arr" x1="384" y1="152" x2="456" y2="152" marker-end="url(#ah)"/>
+      <g class="c-teal"><rect x="460" y="130" width="180" height="44" rx="8"/><text class="th" x="550" y="152" text-anchor="middle" dominant-baseline="central">e06afa63…72be79</text></g>
+    </svg>
+  </figure>
+
+  <h2>Four properties</h2>
+  <div class="scroll"><table>
+    <thead><tr><th>Property</th><th>Meaning</th></tr></thead>
+    <tbody>
+      <tr><td><b>Same input → same hash</b></td><td>Anyone, anywhere, gets the identical code</td></tr>
+      <tr><td><b>Tiny change → totally different hash</b></td><td>Change one character and the whole code changes</td></tr>
+      <tr><td><b>One-way</b></td><td>From the hash, you can't work out the input</td></tr>
+      <tr><td><b>Practically unique</b></td><td>Two different inputs never end up with the same hash</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>How this solves Lesson 1's puzzle</h3>
+  <p>Each friend hashes their whole notebook and they compare <b>just the 64-character codes</b>. Same code → identical notebooks. Different code → someone changed something. Comparing thousands of pages now takes one second.</p>
+
+  <div class="box widget">
+    <h3>Try it: type and watch the fingerprint change</h3>
+    <label>Your input <input id="inp" value="A pays B 50" spellcheck="false"></label>
+    <div>
+      <div class="muted">SHA-256 fingerprint (always 64 characters)</div>
+      <div id="out" class="out mono"></div>
+    </div>
+    <div id="diff" class="muted">Change one character and see how many of the 64 change.</div>
+  </div>
+  <ol>
+    <li>Change <code>50</code> to <code>500</code> and count the red characters.</li>
+    <li>Change a lowercase letter to uppercase.</li>
+    <li>Type a full paragraph. The fingerprint is still exactly 64 characters.</li>
+    <li>Type <code>A pays B 50</code> again. You get back the exact original fingerprint.</li>
+  </ol>
+
+  <h3>On your own computer</h3>
+  <pre>printf 'A pays B 50' | shasum -a 256</pre>
+  <p>This prints <code>b278e5a2…5647cd</code>. Every computer in the world gets the same answer, so strangers can trust each other's fingerprints.</p>
+
+  <section class="check">
+    <h2>Check yourself</h2>
+    <p>B secretly changes their notebook from ₹50 to ₹500. Using hashing, how do the other two friends catch it without reading B's notebook page by page?</p>
+    <details><summary>Show answer</summary>
+      <p>They compare notebook hashes. A's and C's match; B's doesn't. Together with Lesson 1's rule, the two matching copies win and B's change is rejected.</p>
+      <p><b>Bonus:</b> websites store the <i>hash</i> of your password, not the password. If hackers steal the hashes, they can't reverse them.</p>
+    </details>
+  </section>
+
+  <p class="muted" style="margin-top:20px">Open question: one hash for the whole notebook tells you <i>that</i> something changed, but not <i>where</i>. → Lesson 3.</p>
+
+  <nav class="pager"><a href="1-why-blockchain.html">← Lesson 1</a><a href="3-blocks-and-chain.html">Lesson 3: Blocks and the chain →</a></nav>
+</main>
+<script src="../assets/sha256.js"></script>
+<script>
+  const inp = document.getElementById("inp"), out = document.getElementById("out"), diff = document.getElementById("diff");
+  let previous = null;
+  function update() {
+    const h = sha256(inp.value);
+    if (previous) {
+      let changed = 0;
+      out.innerHTML = [...h].map((c, i) => (c !== previous[i] ? (changed++, `<span class="changed">${c}</span>`) : c)).join("");
+      diff.textContent = h === previous ? "Same input, same fingerprint." : `${changed} of 64 characters changed (shown in red) after your edit.`;
+    } else {
+      out.textContent = h;
+    }
+    previous = h;
+  }
+  inp.addEventListener("input", update);
+  update();
+</script>
+</body>
+</html>

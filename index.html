@@ -30,6 +30,8 @@
   ol { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; }
   li { display: flex; gap: 10px; align-items: baseline; background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 8px 12px; }
   .n { color: var(--muted); font-variant-numeric: tabular-nums; min-width: 1.5em; }
+  li a { color: inherit; text-decoration-color: var(--border); }
+  li a:hover { color: var(--accent); }
   .tag { margin-left: auto; font-size: 12px; padding: 1px 8px; border-radius: 999px; color: var(--muted); border: 1px solid var(--border); white-space: nowrap; }
   .tag.done { color: var(--done); background: var(--done-bg); border-color: transparent; }
   footer { margin-top: 32px; color: var(--muted); font-size: 14px; }
@@ -63,12 +65,13 @@
 
   <h2>Lessons</h2>
   <ol>
-    <li><span class="n">1</span>Why blockchain: everyone keeps a copy of the record book<span class="tag done">Done</span></li>
-    <li><span class="n">2</span>Hashing: a digital fingerprint<span class="tag done">Done</span></li>
-    <li><span class="n">3</span>Blocks and the chain<span class="tag done">Done</span></li>
-    <li><span class="n">4</span>Wallets: keys and signatures<span class="tag done">Done</span></li>
-    <li><span class="n">5</span>Mining: who adds the next block<span class="tag done">Done</span></li>
-    <li><span class="n">6</span>The life of a transaction<span class="tag done">Done</span></li>
+    <li><span class="n">1</span><a href="lessons/1-why-blockchain.html">Why blockchain: everyone keeps a copy of the record book</a><span class="tag done">Done</span></li>
+    <li><span class="n">2</span><a href="lessons/2-hashing.html">Hashing: a digital fingerprint</a><span class="tag done">Done</span></li>
+    <li><span class="n">3</span><a href="lessons/3-blocks-and-chain.html">Blocks and the chain</a><span class="tag done">Done</span></li>
+    <li><span class="n">4</span><a href="lessons/4-wallets-and-signatures.html">Wallets: keys and signatures</a><span class="tag done">Done</span></li>
+    <li><span class="n">5</span><a href="lessons/5-mining.html">Mining: who adds the next block</a><span class="tag done">Done</span></li>
+    <li><span class="n">★</span><a href="lessons/recap-big-picture.html">Recap: the big picture (value, volatility, different blockchains)</a><span class="tag done">Done</span></li>
+    <li><span class="n">6</span><a href="lessons/6-life-of-a-transaction.html">The life of a transaction</a><span class="tag done">Done</span></li>
     <li><span class="n">7</span>Smart contracts: code that lives on the blockchain<span class="tag">Next</span></li>
     <li><span class="n">8</span>Tokens: your own coin<span class="tag">Later</span></li>
     <li><span class="n">9</span>dApps: a web page that talks to the blockchain<span class="tag">Later</span></li>

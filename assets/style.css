@@ -1,0 +1,112 @@
+/* Shared styles for the lesson pages. */
+
+:root {
+  --bg: #f6f7f9; --card: #ffffff; --field: #ffffff; --text: #1b1f24; --muted: #5f6b7a;
+  --border: #dde2e8; --accent: #4f46e5; --line: #8a94a3;
+  --ok: #166534; --ok-bg: #e3f4e8; --no: #b91c1c; --no-bg: #fdecec; --warn: #8a5a00; --warn-bg: #fdf3dc;
+  --code: #eef1f5;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f1216; --card: #171b21; --field: #0f1216; --text: #e6e9ee; --muted: #9aa5b4;
+    --border: #2a313a; --accent: #a5b4fc; --line: #7d8796;
+    --ok: #86efac; --ok-bg: #12301d; --no: #fca5a5; --no-bg: #3a1414; --warn: #fcd34d; --warn-bg: #3a2d10;
+    --code: #222831;
+  }
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.7 system-ui, -apple-system, "Segoe UI", sans-serif; }
+main { max-width: 760px; margin: 0 auto; padding: 20px 16px 56px; }
+a { color: var(--accent); }
+h1 { font-size: 28px; line-height: 1.3; margin: 12px 0 6px; }
+h2 { font-size: 20px; margin: 36px 0 10px; }
+h3 { font-size: 17px; margin: 24px 0 8px; }
+p, ul, ol { margin: 0 0 12px; }
+li { margin-bottom: 4px; }
+code { background: var(--code); padding: 1px 6px; border-radius: 4px; font-size: 14px; }
+pre { background: var(--code); padding: 12px 14px; border-radius: 8px; overflow-x: auto; font-size: 14px; }
+
+.top { display: flex; justify-content: space-between; gap: 12px; font-size: 14px; color: var(--muted); }
+.lead { font-size: 18px; color: var(--muted); }
+
+table { width: 100%; border-collapse: collapse; margin: 8px 0 16px; font-size: 15px; }
+th, td { text-align: left; vertical-align: top; padding: 8px; border-bottom: 1px solid var(--border); }
+th { color: var(--muted); font-weight: 500; }
+.scroll { overflow-x: auto; }
+
+.callout { border: 1px solid var(--border); border-left: 4px solid var(--warn); background: var(--warn-bg); color: var(--text); padding: 10px 14px; border-radius: 0; margin: 16px 0; }
+
+figure.diagram { margin: 16px 0; padding: 12px; background: var(--card); border: 1px solid var(--border); border-radius: 12px; }
+figure.diagram svg { display: block; width: 100%; height: auto; }
+
+.box { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin: 16px 0; }
+.box h3 { margin-top: 0; }
+
+.check { background: var(--card); border: 1px solid var(--accent); border-radius: 12px; padding: 16px; margin: 32px 0 0; }
+.check h2 { margin-top: 0; }
+details summary { cursor: pointer; color: var(--accent); font-weight: 500; }
+details[open] summary { margin-bottom: 8px; }
+
+.pager { display: flex; justify-content: space-between; gap: 12px; margin-top: 32px; font-size: 15px; }
+.pager a { text-decoration: none; }
+
+/* Interactive widgets */
+.widget { display: grid; gap: 12px; }
+.widget label { display: grid; gap: 4px; color: var(--muted); font-size: 14px; }
+.widget input, .widget select {
+  width: 100%; padding: 9px 11px; border: 1px solid var(--border); border-radius: 6px;
+  background: var(--field); color: var(--text); font: 15px ui-monospace, Menlo, monospace;
+}
+.widget button {
+  justify-self: start; padding: 8px 14px; border: 1px solid var(--border); border-radius: 6px;
+  background: var(--field); color: var(--text); font: 15px system-ui, sans-serif; cursor: pointer;
+}
+.widget button:disabled { opacity: .5; cursor: not-allowed; }
+.row { display: flex; gap: 10px; flex-wrap: wrap; align-items: end; }
+.mono { font-family: ui-monospace, Menlo, monospace; font-size: 14px; word-break: break-all; }
+.muted { color: var(--muted); font-size: 14px; }
+.out { background: var(--code); border-radius: 8px; padding: 10px 12px; }
+.changed { color: var(--no); font-weight: 600; }
+.zeros { color: var(--ok); font-weight: 600; }
+.result { padding: 10px 12px; border-radius: 8px; font-weight: 500; }
+.result.ok { background: var(--ok-bg); color: var(--ok); }
+.result.no { background: var(--no-bg); color: var(--no); }
+.err { color: var(--no); font-size: 14px; }
+.chain { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+@media (max-width: 600px) { .chain { grid-template-columns: minmax(0, 1fr); } }
+.blk { border: 1px solid var(--ok); background: var(--ok-bg); border-radius: 10px; padding: 12px; display: grid; gap: 6px; }
+.blk.bad { border-color: var(--no); background: var(--no-bg); }
+.blk .status { font-weight: 600; font-size: 14px; color: var(--ok); }
+.blk.bad .status { color: var(--no); }
+.stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.stat { background: var(--code); border-radius: 8px; padding: 8px 10px; }
+.stat b { display: block; font-size: 18px; font-variant-numeric: tabular-nums; }
+
+/* Diagram colours: light fill + dark text in light mode, the reverse in dark mode. */
+svg text { font-family: system-ui, -apple-system, sans-serif; fill: var(--text); }
+svg .t { font-size: 14px; }
+svg .th { font-size: 14px; font-weight: 500; }
+svg .ts { font-size: 12px; fill: var(--muted); }
+svg .arr { stroke: var(--line); stroke-width: 1.5; fill: none; }
+svg .arrowhead { stroke: var(--line); }
+svg .lifeline { stroke: var(--line); stroke-width: 0.75; stroke-dasharray: 4 4; }
+svg .frame { fill: none; stroke: var(--line); stroke-width: 0.75; stroke-dasharray: 4 3; }
+
+.c-purple { --f: #EEEDFE; --s: #534AB7; --tt: #3C3489; --st: #534AB7; }
+.c-teal   { --f: #E1F5EE; --s: #0F6E56; --tt: #085041; --st: #0F6E56; }
+.c-coral  { --f: #FAECE7; --s: #993C1D; --tt: #712B13; --st: #993C1D; }
+.c-gray   { --f: #F1EFE8; --s: #5F5E5A; --tt: #444441; --st: #5F5E5A; }
+.c-green  { --f: #EAF3DE; --s: #3B6D11; --tt: #27500A; --st: #3B6D11; }
+.c-red    { --f: #FCEBEB; --s: #A32D2D; --tt: #791F1F; --st: #A32D2D; }
+@media (prefers-color-scheme: dark) {
+  .c-purple { --f: #3C3489; --s: #AFA9EC; --tt: #EEEDFE; --st: #CECBF6; }
+  .c-teal   { --f: #085041; --s: #5DCAA5; --tt: #E1F5EE; --st: #9FE1CB; }
+  .c-coral  { --f: #712B13; --s: #F0997B; --tt: #FAECE7; --st: #F5C4B3; }
+  .c-gray   { --f: #444441; --s: #B4B2A9; --tt: #F1EFE8; --st: #D3D1C7; }
+  .c-green  { --f: #27500A; --s: #97C459; --tt: #EAF3DE; --st: #C0DD97; }
+  .c-red    { --f: #791F1F; --s: #F09595; --tt: #FCEBEB; --st: #F7C1C1; }
+}
+svg g[class^="c-"] > rect { fill: var(--f); stroke: var(--s); stroke-width: 0.75; }
+svg g[class^="c-"] > .th, svg g[class^="c-"] > .t { fill: var(--tt); }
+svg g[class^="c-"] > .ts { fill: var(--st); }
